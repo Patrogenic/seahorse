@@ -24,6 +24,7 @@ const PDFTab = ({ setPDF, pdf_filename }: PDFTabProps) => {
   const supabaseClient = useSupabaseClient();
   const [ file, setFile ] = useState<File | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const pdfFrameRef = useRef<HTMLObjectElement>(null);
   const [ url, setUrl ] = useState<string>();
   const [ loading, setLoading ] = useState<boolean>(true);
   
@@ -45,6 +46,34 @@ const PDFTab = ({ setPDF, pdf_filename }: PDFTabProps) => {
         setUrl(res.data?.signedUrl);
       }
       setLoading(false);
+    }
+
+    // add listener and then remove listener here
+
+    if(window.screen.orientation){
+      window.screen.orientation.addEventListener("change", (e) => {
+        // @ts-ignore
+        // let type = e?.target?.type
+
+        switch (screen.orientation.type) {
+          case "landscape-primary":
+            pdfFrameRef.current?.requestFullscreen();
+            break;
+          case "landscape-secondary":
+            pdfFrameRef.current?.requestFullscreen();
+            break;
+          case "portrait-secondary":
+            document.exitFullscreen();
+            break;
+          case "portrait-primary":
+            document.exitFullscreen();
+            break;
+          default:
+            console.log("The orientation API isn't supported in this browser :(");
+        }
+
+
+      })
     }
 
     getPDFUrl();
@@ -74,9 +103,13 @@ const PDFTab = ({ setPDF, pdf_filename }: PDFTabProps) => {
       <button onClick={() => uploadPDF()}>Upload</button>
       <input ref={fileInputRef} id="upload" type="file" accept=".pdf" onChange={e => selectPDF(e)} />
       {!loading && 
-        <div style={{height: "100%"}}>
-          <iframe width="100%" height="100%"  src={url} />
-        </div>
+        // <div style={{height: "100%"}}>
+        //   <iframe width="100%" height="100%"  src={url} />
+        // </div>
+
+      <object ref={pdfFrameRef} data={url} type="application/pdf">
+          <iframe height="100%" width="100%" src={`https://docs.google.com/viewer?url=${url}&embedded=true`}></iframe>
+      </object>
       }
     </>
   )
