@@ -7,8 +7,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Dashboard from '../components/Dashboard'
 
-const inter = Inter({ subsets: ['latin'] })
-
 export default function Home() {
   const supabaseClient = useSupabaseClient()
   // const user = useUser()
@@ -43,7 +41,7 @@ export default function Home() {
         setUser(res?.data?.user);
         // loadData()
       }else{
-        router.push("http://localhost:3000/login");
+        router.push("https://seahorse-blue.vercel.app/login");
         setLoading(false);
       }
     }

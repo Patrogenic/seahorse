@@ -17,7 +17,7 @@ export default function Login(){
       const res = await supabaseClient.auth.getUser();
       if(res?.data?.user){
         setUser(res?.data?.user);
-        router.push("http://localhost:3000/");
+        router.push("https://seahorse-blue.vercel.app/");
       }
       setLoading(false);
     }
@@ -29,7 +29,7 @@ export default function Login(){
   if (!loading && !user){
     return (
       <Auth
-        redirectTo="http://localhost:3000/"
+        redirectTo="https://seahorse-blue.vercel.app/"
         appearance={{ theme: ThemeSupa }}
         supabaseClient={supabaseClient}
         socialLayout="horizontal"
