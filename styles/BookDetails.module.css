@@ -1,0 +1,28 @@
+.navBar{
+  margin: 8px 4px 0 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 2px;
+}
+
+.navBarItem{
+  width: 33%;
+  text-align: center;
+  background: white;
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.navBarItemSelected{
+  composes: navBarItem;
+  background: #CFE3F2;
+}
+
+.tabCtn{
+  width: calc(100% - 20px);
+  height: calc(100% - 124px);
+  margin: 10px;
+}
