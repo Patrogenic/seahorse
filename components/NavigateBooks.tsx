@@ -23,41 +23,27 @@ const NavigateBooks = ({ books, setBooks }: NavigateBooksProps) => {
   const filteredBooks = books;
   const currBook: Book | null = books && currBookIndex !== 1 ? books[currBookIndex] : null;
 
-  // const setQuiz = (quiz: string): void => {
-  //   let updatedBook: Book = { ...currBook, quiz } as Book;
-  //   let updatedBooks: Book[] = books!.map((b, i) => i === currBookIndex ? updatedBook : b)
-
-  //   //update Supabase and then update books locally
-  //   setBooks(updatedBooks);
-  // }
-
-
   const setBookProperty = async (prop: Property, value: string): Promise<void> => {
     let updatedBook: Book = { ...currBook, [prop]: value } as Book;
-    let updatedBooks: Book[] = books!.map((b, i) => i === currBookIndex ? updatedBook : b)
+    let updatedBooks: Book[] = filteredBooks!.map((b, i) => i === currBookIndex ? updatedBook : b)
     
     const { data } = await supabaseClient.from('Books').update({ [prop]: value }).eq('id', currBook?.id)
-
-    console.log(data);
-    //update row in Supabase and then update books locally
     setBooks(updatedBooks);
   }
 
   return(
     <>
-      
-
-      {!currBook && <>
+      {/* {!currBook && <>
         <input type="text" />
         <BookTileList>
-          {filteredBooks?.map((b, i) => <BookTile key={b.id} title={b.book_title} setCurrBookIndex={setCurrBookIndex} bookIndex={i} />)}
+          {filteredBooks?.map((b, i) => <BookTile key={b.id} title={b.book_title} setCurrBookIndex={() => setCurrBookIndex(i)} />)}
         </BookTileList></>
-      }
-      {currBook && <BookDetails
+      } */}
+      {/* {currBook && <BookDetails
         quizTab={<QuizTab setQuiz={(quiz) => setBookProperty("quiz", quiz)} />}
         notesTab={<NotesTab setNotes={(notes) => setBookProperty("notes", notes)}/>}
         pdfTab={<PDFTab pdf_filename={currBook.pdf_filename} setPDF={(pdf_filename) => setBookProperty("pdf_filename", pdf_filename)}/>}/>
-      }
+      } */}
     </>
   )
 }

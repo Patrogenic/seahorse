@@ -2,9 +2,10 @@
 
 type QuizTabProps = {
   setQuiz: (quiz: string) => void,
+  quiz: string,
 }
 
-const QuizTab = ({ setQuiz }: QuizTabProps) => {
+const QuizTab = ({ setQuiz, quiz }: QuizTabProps) => {
 
   return (
     <>

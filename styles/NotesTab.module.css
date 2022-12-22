@@ -1,0 +1,13 @@
+.viewCtn{
+  white-space: pre-wrap;
+  /* background: white; */
+}
+
+.editCtn{
+  white-space: pre-wrap;
+}
+
+.pageLink{
+  cursor: pointer;
+  color: rgb(0, 0, 255);
+}

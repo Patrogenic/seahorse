@@ -11,3 +11,5 @@ export type Book = {
   author: string,
   published_date: string,
 }
+
+export type Views = "BookList" | "BookDetails" | "Schedule";
