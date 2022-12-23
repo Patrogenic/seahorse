@@ -3,12 +3,12 @@ import styles from '../styles/NotesTab.module.css'
 
 
 type NotesTabProps = {
-  setNotes: (quiz: string) => void,
+  saveNotes: (quiz: string) => void,
   notes: string,
   PDFUrl: string,
 }
 
-const NotesTab = ({ setNotes, notes, PDFUrl }: NotesTabProps) => {
+const NotesTab = ({ saveNotes, notes, PDFUrl }: NotesTabProps) => {
   const [ isEditMode, setIsEditMode ] = useState<boolean>(false);
   const [ editNotesVal, setEditNotesVal ] = useState<string>(notes);
   const viewNotesRef = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ const NotesTab = ({ setNotes, notes, PDFUrl }: NotesTabProps) => {
 
     // console.log(editNotesVal);
     if(isEditMode && notes !== editNotesVal){
-      // setNotes(editNotesVal);
+      saveNotes(editNotesVal);
     }
   }
 
@@ -69,8 +69,10 @@ const NotesTab = ({ setNotes, notes, PDFUrl }: NotesTabProps) => {
     <>
       <button onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Done"}</button>
 
-      {!isEditMode && <div ref={viewNotesRef} className={styles.viewCtn}></div>}
-      {isEditMode && <div className={styles.editCtn} suppressContentEditableWarning={true} contentEditable={true} onBlur={(e) => onNotesChange(e)}>{editNotesVal}</div>}
+      <div className={isEditMode ? styles.editCtn : styles.viewCtn}>
+        {!isEditMode && <div ref={viewNotesRef} className={styles.content}></div>}
+        {isEditMode && <div className={styles.content} suppressContentEditableWarning={true} contentEditable={true} onBlur={(e) => onNotesChange(e)}>{editNotesVal}</div>}
+      </div>
     </>
   )
 }

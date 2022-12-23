@@ -1,10 +1,20 @@
-.viewCtn{
+.content{
   white-space: pre-wrap;
+  width: calc(100% - 20px);
+}
+
+.viewCtn{
+  display: flex;
+  justify-content: center;
   /* background: white; */
 }
 
 .editCtn{
+  composes: viewCtn;
   white-space: pre-wrap;
+  border: 1px black solid;
+  border-radius: 5px;
+  /* padding: 0 10px; */
 }
 
 .pageLink{

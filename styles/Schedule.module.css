@@ -1,0 +1,11 @@
+.ctn{
+  /* width: 100%; */
+  height: calc(100% - 70px);
+  margin: 10px;
+}
+
+.dates{
+  font-weight: bold;
+  margin: 5px 0px;
+  font-size: 18px;
+}

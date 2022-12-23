@@ -1,0 +1,17 @@
+.suggestedHeader{
+  margin-bottom: 10px;
+}
+
+.content{
+  white-space: pre-wrap;
+  width: calc(100% - 20px);
+}
+
+.editCtn{
+  border-radius: 5px;
+  white-space: pre-wrap;
+  /* background: white; */
+  border: 1px black solid;
+  display: flex;
+  justify-content: center;
+}

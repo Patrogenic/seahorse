@@ -1,7 +1,7 @@
 import { User, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { resolve } from "node:path/posix";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { UserContext } from "../pages";
+import testData from "../testData";
 import Books from "../testData";
 import { Book, Views } from "../types";
 import BookDetails from "./BookDetails";
@@ -12,13 +12,14 @@ import NavigateBooks from "./NavigateBooks";
 import NotesTab from "./NotesTab";
 import PDFTab from "./PDFTab";
 import QuizTab from "./QuizTab";
+import Schedule from "./Schedule";
 
 
 type DashboardProps = {
 
 }
 
-type Property = "quiz" | "notes" | "pdf_filename" | "book_title";
+type Property = "quiz" | "notes" | "pdf_filename" | "book_title" | "next_quiz_date" | "quiz_cooldown_time";
 
 
 //conditionally show NavigateBooks/Schedule?
@@ -95,33 +96,31 @@ const Dashboard = ({}: DashboardProps) => {
     setSearch(e.target.value);
   }
 
-  //Need edit and delete icons, need to align them to the right, need to add style to my cards and make them look more like my design
-  //Implement search
-
-  // do notes screen, including adding links to the PDF (onload for the notes screen get the URL? or maybe I should just get the URL when I load bookdetails)
-  // (current plan is to get the URL once on load and then append page numbers to the end of that link)
-
-  //probably want the dashboard to get a PDF link from Supabase when someone clicks on a book
-  //this will probably minimize the requests to supabase
+  const saveNextQuizDate = (next_quiz_date: string, quiz_cooldown_time: number, currBook: Book) => {
+    setBookProperty("next_quiz_date", next_quiz_date, currBook);
+    setBookProperty("quiz_cooldown_time", String(quiz_cooldown_time), currBook);
+  }
 
   return(
     <>
       <NavBar currView={currView} setCurrView={setCurrView} />
 
-      {!currBook && <>
-        <input type="text" value={search} onChange={(e) => onSearchChange(e)} /> <button onClick={addNewBook}>New</button><button onClick={toggleEditMode}>Edit</button>
-        <BookTileList>
-          {filteredBooks?.map((b, i) => <BookTile key={b.id} title={b.book_title} onBookClick={() => onBookClick(b.id, b.pdf_filename)}
-             dashboardEditMode={isEditMode} setBookTitle={(book_title) => setBookProperty("book_title", book_title, b)} />)}
-        </BookTileList></>
-      }
-      {currBook && <BookDetails
-        quizTab={<QuizTab quiz={currBook.quiz} setQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} />}
-        notesTab={<NotesTab PDFUrl={currPDFUrl} notes={currBook.notes} setNotes={(notes) => setBookProperty("notes", notes, currBook)}/>}
-        pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename} setPDF={(pdf_filename) => setBookProperty("pdf_filename", pdf_filename, currBook)}/>}/>
-      }
+      {(currView === "BookDetails" || currView === "BookList") && <div>
+        {!currBook && <>
+          <input type="text" value={search} onChange={(e) => onSearchChange(e)} /> <button onClick={addNewBook}>New</button><button onClick={toggleEditMode}>Edit</button>
+          <BookTileList>
+            {filteredBooks?.map((b, i) => <BookTile key={b.id} title={b.book_title} onBookClick={() => onBookClick(b.id, b.pdf_filename)}
+              dashboardEditMode={isEditMode} setBookTitle={(book_title) => setBookProperty("book_title", book_title, b)} />)}
+          </BookTileList></>
+        }
+        {currBook && <BookDetails
+          quizTab={<QuizTab quiz={currBook.quiz} notes={currBook.notes} quiz_cooldown_time={currBook.quiz_cooldown_time} saveQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} saveNextQuizDate={(next_quiz_date: string, quiz_cooldown_time: number) => saveNextQuizDate(next_quiz_date, quiz_cooldown_time, currBook)} />}
+          notesTab={<NotesTab PDFUrl={currPDFUrl} notes={currBook.notes} saveNotes={(notes) => setBookProperty("notes", notes, currBook)}/>}
+          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename} savePDF={(pdf_filename) => setBookProperty("pdf_filename", pdf_filename, currBook)}/>}/>
+        }
+      </div>}
 
-      {/* <Schedule /> */}
+      {currView === "Schedule" && <Schedule books={books} />}
 
     </>
   )

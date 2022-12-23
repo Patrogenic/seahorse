@@ -16,6 +16,8 @@ const NavBar = ({ currView, setCurrView }: NavBarTypes) => {
   return (
     <div className={styles.ctn}>
       {currView === "BookDetails" && <button onClick={backToBookList}>Back</button>}
+      <button onClick={() => setCurrView("Schedule")}>Schedule</button>
+      <button onClick={() => setCurrView("BookList")}>Book List</button>
     </div>
   )
 }

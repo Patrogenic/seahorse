@@ -5,7 +5,7 @@ import styles from '../styles/PDFTab.module.css'
 import { Book } from "../types";
 
 type PDFTabProps = {
-  setPDF: (quiz: string) => void,
+  savePDF: (quiz: string) => void,
   pdf_filename: string,
   PDFUrl: string,
 }
@@ -20,7 +20,7 @@ type PDFTabProps = {
 
 
 
-const PDFTab = ({ setPDF, pdf_filename, PDFUrl }: PDFTabProps) => {
+const PDFTab = ({ savePDF, pdf_filename, PDFUrl }: PDFTabProps) => {
   const supabaseClient = useSupabaseClient();
   const user = useContext<User>(UserContext);
   const [ file, setFile ] = useState<File | null>();
@@ -32,32 +32,32 @@ const PDFTab = ({ setPDF, pdf_filename, PDFUrl }: PDFTabProps) => {
 
   useEffect(() => {
 
-    const onOrientationChange = (e: Event) => {
-      switch (screen.orientation.type) {
-        case "landscape-primary":
-          pdfFrameRef.current?.requestFullscreen();
-          break;
-        case "landscape-secondary":
-          pdfFrameRef.current?.requestFullscreen();
-          break;
-        case "portrait-secondary":
-          document.exitFullscreen();
-          break;
-        case "portrait-primary":
-          document.exitFullscreen();
-          break;
-        default:
-          console.log("The orientation API isn't supported in this browser :(");
-      }
-    }
+    // const onOrientationChange = (e: Event) => {
+    //   switch (screen.orientation.type) {
+    //     case "landscape-primary":
+    //       pdfFrameRef.current?.requestFullscreen();
+    //       break;
+    //     case "landscape-secondary":
+    //       pdfFrameRef.current?.requestFullscreen();
+    //       break;
+    //     case "portrait-secondary":
+    //       document.exitFullscreen();
+    //       break;
+    //     case "portrait-primary":
+    //       document.exitFullscreen();
+    //       break;
+    //     default:
+    //       console.log("The orientation API isn't supported in this browser :(");
+    //   }
+    // }
 
-    if(window.screen.orientation){
-      window.screen.orientation.addEventListener("change", onOrientationChange);
-    }
+    // if(window.screen.orientation){
+    //   window.screen.orientation.addEventListener("change", onOrientationChange);
+    // }
 
-    return () => {
-      window.screen.orientation.removeEventListener("change", onOrientationChange);
-    }
+    // return () => {
+    //   window.screen.orientation.removeEventListener("change", onOrientationChange);
+    // }
   }, [])
 
 
@@ -70,7 +70,7 @@ const PDFTab = ({ setPDF, pdf_filename, PDFUrl }: PDFTabProps) => {
   const uploadPDF = async () => {
     if(file){
       const res = await supabaseClient.storage.from("pdfs").upload(`${user.id}/${file.name}`, file);
-      setPDF(file.name);
+      savePDF(file.name);
       setFile(null);
 
       if(fileInputRef.current?.value){

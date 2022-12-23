@@ -10,6 +10,8 @@ export type Book = {
   book_title: string,
   author: string,
   published_date: string,
+  next_quiz_date: string,
+  quiz_cooldown_time: number,
 }
 
 export type Views = "BookList" | "BookDetails" | "Schedule";
