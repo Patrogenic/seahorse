@@ -16,7 +16,7 @@ const makeQuizFromNotes = (notes: string): string => {
     }
   }
 
-  quizFromNotes.trim();
+  quizFromNotes?.trim();
 
   return quizFromNotes;
 }
@@ -48,7 +48,7 @@ const QuizTab = ({ saveQuiz, quiz, notes, saveNextQuizDate, quiz_cooldown_time }
     setIsEditMode(!isEditMode);
 
     if(isEditMode && quiz !== editQuizVal && !suggestMode){
-      saveQuiz(editQuizVal);
+      saveQuiz(editQuizVal.trim());
     }
   }
 

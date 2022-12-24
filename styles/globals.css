@@ -7,11 +7,9 @@
 html,
 body {
   width: 100%;
-  overflow-x: hidden;
   /* background: #F5F5F5; */
   background: white;
   height: 100%;
-  overflow: hidden;
 }
 
 body {

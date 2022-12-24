@@ -13,7 +13,7 @@ const quizSchedule = [0, 1, 2, 3, 7, 14, 30, 60, 90, 180, 0];
 const romanNumArr = ["null", "I", "II", "III", "IV", "V", "VI", "VII"];
 
 const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizProps) => {
-  const lines: string[] = quiz.trim().split("\n");
+  const lines: string[] = quiz?.trim().split("\n");
   const parts: string[] | null = lines.filter(line => line.startsWith("Part"));
   const chapters: string[] | null = lines.filter(line => line.startsWith("Chapter"));
   const correctAnswers: string[] | null = lines.map(line => line.split(" ").slice(2).join(" "));
@@ -31,7 +31,6 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
   const onQuizSubmit = () => {
     // reveal answers, then give the user the option to schedule the next quiz (give three options, if it was 3 days since the last quiz, give the user three options: 1 day, 3 days, 7 days)
     // then we have to update the schedules column in supabase
-    console.log("quiz submitted")
     setShowAnswers(true);
   }
 
@@ -47,9 +46,7 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
     setShowAnswers(false);
   }
 
-
   // need to fix some styling for the notes and quiz, work on scheduling of quizzes, style login screen
-
 
   return(
     <div className={styles.ctn}>

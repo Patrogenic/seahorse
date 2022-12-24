@@ -44,6 +44,9 @@ const Schedule = ({ books }: ScheduleProps) => {
   // Style login screen to mostly match the design mock
   // Style the search bar and buttons the BookList screen
   // Style buttons through the rest of the application (make a general button style to be used, maybe in the global css file)
+  // Might want to add some sort of indication that the PDF is in the process of being uploaded (this can take a while in some cases)
+  // I need to retrieve the PDF URL right after it finishes uploading and update the state of the dashboard
+  // Will have to revise the UI of editing notes, it's currently somewhat of a hassle and inconvenient
 
   // Later steps:
   // Test out with another user to test row level security

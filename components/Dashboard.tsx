@@ -42,13 +42,22 @@ const Dashboard = ({}: DashboardProps) => {
   useEffect(() => {
     async function getBooks() {
       const { data } = await supabaseClient.from('Books').select('*')
+
+      data?.sort((a: Book, b: Book) => {
+        if(a.created_at > b.created_at){
+          return -1;
+        }else{
+          return 1;
+        }
+      })
+
       setBooks(data)
     }
     
     getBooks();
   }, [])
 
-  const setBookProperty = async (prop: Property, value: string, originalBook: Book): Promise<void> => {
+  const setBookProperty = async (prop: Property, value: string | number, originalBook: Book): Promise<void> => {
     let updatedBook: Book = { ...originalBook, [prop]: value } as Book;
     let updatedBooks: Book[] = books!.map((b, i) => b.id === originalBook.id ? updatedBook : b)
     
@@ -100,7 +109,7 @@ const Dashboard = ({}: DashboardProps) => {
 
   const saveNextQuizDate = (next_quiz_date: string, quiz_cooldown_time: number, currBook: Book) => {
     setBookProperty("next_quiz_date", next_quiz_date, currBook);
-    setBookProperty("quiz_cooldown_time", String(quiz_cooldown_time), currBook);
+    setBookProperty("quiz_cooldown_time", quiz_cooldown_time, currBook);
   }
 
   return(
@@ -122,9 +131,9 @@ const Dashboard = ({}: DashboardProps) => {
           </BookTileList></>
         }
         {currBook && <BookDetails
-          quizTab={<QuizTab quiz={currBook.quiz} notes={currBook.notes} quiz_cooldown_time={currBook.quiz_cooldown_time} saveQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} saveNextQuizDate={(next_quiz_date: string, quiz_cooldown_time: number) => saveNextQuizDate(next_quiz_date, quiz_cooldown_time, currBook)} />}
-          notesTab={<NotesTab PDFUrl={currPDFUrl} notes={currBook.notes} saveNotes={(notes) => setBookProperty("notes", notes, currBook)}/>}
-          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename} savePDF={(pdf_filename) => setBookProperty("pdf_filename", pdf_filename, currBook)}/>}/>
+          quizTab={<QuizTab quiz={currBook.quiz || ""} notes={currBook.notes} quiz_cooldown_time={currBook.quiz_cooldown_time} saveQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} saveNextQuizDate={(next_quiz_date: string, quiz_cooldown_time: number) => saveNextQuizDate(next_quiz_date, quiz_cooldown_time, currBook)} />}
+          notesTab={<NotesTab PDFUrl={currPDFUrl} notes={currBook.notes || ""} saveNotes={(notes) => setBookProperty("notes", notes, currBook)}/>}
+          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename || ""} savePDF={(pdf_filename) => setBookProperty("pdf_filename", pdf_filename, currBook)}/>}/>
         }
       </div>}
 
