@@ -5,7 +5,7 @@
 }
 
 html,
-body {
+body, #__next {
   width: 100%;
   /* background: #F5F5F5; */
   background: white;
@@ -34,9 +34,6 @@ input[type=text]{
   padding: 5px;
 }
 
-#__next {
-  height: 100%
-}
 
 [contenteditable]:focus {
   outline: 0px solid transparent;
