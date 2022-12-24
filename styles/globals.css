@@ -6,13 +6,9 @@
 
 html,
 body, #__next {
-  width: 100%;
   /* background: #F5F5F5; */
   background: white;
   height: 100%;
-  position: fixed;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 main {
