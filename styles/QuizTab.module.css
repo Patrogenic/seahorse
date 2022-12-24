@@ -15,3 +15,8 @@
   display: flex;
   justify-content: center;
 }
+
+.btnCtn{
+  display: flex;
+  justify-content: flex-end;
+}

@@ -64,8 +64,11 @@ const QuizTab = ({ saveQuiz, quiz, notes, saveNextQuizDate, quiz_cooldown_time }
   if(suggestMode){
     return (
       <>
-        <button onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Preview"}</button>
-        <button onClick={saveNewQuiz}>Save New Quiz</button>
+        <div className={styles.btnCtn}>
+          <button className="edit-btn" onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Preview"}</button>
+          <button onClick={saveNewQuiz}>Save New Quiz</button>
+        </div>
+        
   
         <div className={styles.suggestedHeader}>Suggested quiz based off of notes</div>
   
@@ -78,7 +81,9 @@ const QuizTab = ({ saveQuiz, quiz, notes, saveNextQuizDate, quiz_cooldown_time }
   }else{
     return (
       <>
-        <button onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Done"}</button>
+        <div className={styles.btnCtn}>
+          <button className="edit-btn" onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Done"}</button>
+        </div>
 
         {!isEditMode && <Quiz quiz={editQuizVal} previewMode={false} saveNextQuizDate={saveNextQuizDate} quiz_cooldown_time={quiz_cooldown_time} />}
         {isEditMode && <div className={styles.editCtn}>

@@ -65,11 +65,17 @@ const NotesTab = ({ saveNotes, notes, PDFUrl }: NotesTabProps) => {
     return parsedNotes;
   }
 
+  const toggleEditBtn = () => {
+
+  }
+
   return (
     <>
-      <button onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Done"}</button>
+      <div className={styles.btnCtn}>
+        <button className="edit-btn" onClick={(e) => onToggleEdit(e)}>{!isEditMode ? "Edit" : "Done"}</button>
+      </div>
 
-      <div className={isEditMode ? styles.editCtn : styles.viewCtn}>
+      <div onClick={toggleEditBtn} className={isEditMode ? styles.editCtn : styles.viewCtn}>
         {!isEditMode && <div ref={viewNotesRef} className={styles.content}></div>}
         {isEditMode && <div className={styles.content} suppressContentEditableWarning={true} contentEditable={true} onBlur={(e) => onNotesChange(e)}>{editNotesVal}</div>}
       </div>

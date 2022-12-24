@@ -21,3 +21,11 @@
   cursor: pointer;
   color: rgb(0, 0, 255);
 }
+
+.btnCtn{
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  /* right: 15px; */
+  top: 0px;
+}

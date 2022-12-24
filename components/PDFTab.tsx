@@ -81,14 +81,14 @@ const PDFTab = ({ savePDF, pdf_filename, PDFUrl }: PDFTabProps) => {
 
   return (
     <>
-      <button onClick={() => uploadPDF()}>Upload</button>
+      <button className={styles.uploadBtn} onClick={() => uploadPDF()}>Upload</button>
       {/* <button onClick={() => pdfFrameRef.current?.requestFullscreen()}>Fullscreen</button> */}
       <input ref={fileInputRef} id="upload" type="file" accept=".pdf" onChange={e => selectPDF(e)} />
       { 
         // <div style={{height: "100%"}}>
         //   <iframe width="100%" height="100%"  src={url} />
         // </div>
-        hasPDF && <div><a href={PDFUrl} target="_blank" rel="noreferrer">View PDF</a></div>
+        hasPDF && <div className={styles.viewPDF}><a href={PDFUrl} target="_blank" rel="noreferrer">View PDF</a></div>
       // <object ref={pdfFrameRef} data={url} type="application/pdf">
       //     <iframe height="100%" width="100%" src={`https://docs.google.com/viewer?url=${url}&embedded=true`}></iframe>
       // </object>
