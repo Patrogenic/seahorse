@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from "react";
-
+import styles from '../styles/Quiz.module.css'
 
 type QuizProps = {
   quiz: string,
@@ -52,26 +52,26 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
 
 
   return(
-    <>
+    <div className={styles.ctn}>
+      <div className={styles.quiz}>
+        {parts.map((p, i) => <div className={styles.question} key={i}>
+          <div>Part {romanNumArr[i + 1]}</div>
+          <input className={styles.textInput} value={userAnswers[i]} onChange={(e) => onAnswerChange(e, i)} type="text"/>
+          {showAnswers && <span>{correctAnswers[i]}</span>}
+        </div>)}
 
-    {parts.map((p, i) => <div key={i}>
-      <div>Part {romanNumArr[i + 1]}</div>
-      <input value={userAnswers[i]} onChange={(e) => onAnswerChange(e, i)} type="text"/>
-      {showAnswers && <span>{correctAnswers[i]}</span>}
-    </div>)}
+        {chapters.map((c, i) => <div className={styles.question} key={i}>
+          <div>Chapter {i + 1}</div>
+          <input className={styles.textInput} value={userAnswers[i + parts.length]} onChange={(e) => onAnswerChange(e, i + parts.length)} type="text"/>
+          {showAnswers && <span>{correctAnswers[i + parts.length]}</span>}
+        </div>)}
 
-    {chapters.map((c, i) => <div key={i}>
-      <div>Chapter {i + 1}</div>
-      <input value={userAnswers[i]} onChange={(e) => onAnswerChange(e, i + parts.length)} type="text"/>
-      {showAnswers && <span>{correctAnswers[i + parts.length]}</span>}
-    </div>)}
-
-    {!previewMode && <button onClick={onQuizSubmit}>Submit</button>}
-    {showAnswers && <div>
-      {schedulingOptions.map((s, i) => s !== 0 && <button key={i} onClick={() => onSchedulingQuiz(s)} >{s} days</button>)}
-    </div>}
-
-    </>
+        {!previewMode && <button onClick={onQuizSubmit}>Submit</button>}
+        {showAnswers && <div>
+          {schedulingOptions.map((s, i) => s !== 0 && <button key={i} onClick={() => onSchedulingQuiz(s)} >{s} days</button>)}
+        </div>}
+      </div>
+    </div>
   )
 }
 

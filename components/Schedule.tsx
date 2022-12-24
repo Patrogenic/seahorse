@@ -32,13 +32,10 @@ const Schedule = ({ books }: ScheduleProps) => {
 
 
   // Next steps:
-  // Define quiz schedule
-  // 1 day, 2 days, 3 days, 1 week, 2 weeks, 1 month, 2 months, 3 months, 6 months (6 months will be the cap)
-  // Need to make schedule options and UI for after submitting a quiz (good example of business logic, by the way)
-  // Implement onSubmitQuiz function in the Quiz component
+  // Should look at implementing fullscreen
+  // To put it simply: I need to figure out fullscreen mode and also fix the style everywhere in the app
 
   // Hamburger menu
-  // SeaHorse logo on navbar
   // Style login screen to mostly match the design mock
   // Style the search bar and buttons the BookList screen
   // Style buttons through the rest of the application (make a general button style to be used, maybe in the global css file)

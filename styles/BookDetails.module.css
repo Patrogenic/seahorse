@@ -11,7 +11,8 @@
 .navBarItem{
   width: 33%;
   text-align: center;
-  background: white;
+  /* background: white; */
+  background: #F5F5F5;
   font-size: 12px;
   padding: 4px 0;
 }

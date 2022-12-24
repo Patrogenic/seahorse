@@ -13,6 +13,7 @@ import NotesTab from "./NotesTab";
 import PDFTab from "./PDFTab";
 import QuizTab from "./QuizTab";
 import Schedule from "./Schedule";
+import styles from '../styles/Dashboard.module.css'
 
 
 type DashboardProps = {
@@ -25,6 +26,10 @@ type Property = "quiz" | "notes" | "pdf_filename" | "book_title" | "next_quiz_da
 //conditionally show NavigateBooks/Schedule?
 //or are these two things different routes?
 //I can probably just keep everything in the dashboard for simplicity
+
+if (typeof window !== "undefined") {
+  window.scrollTo(0, 1);
+}
 
 const Dashboard = ({}: DashboardProps) => {
   const supabaseClient = useSupabaseClient()
@@ -41,7 +46,6 @@ const Dashboard = ({}: DashboardProps) => {
   useEffect(() => {
     async function getBooks() {
       const { data } = await supabaseClient.from('Books').select('*')
-      console.log(data)
       setBooks(data)
     }
     
@@ -107,7 +111,13 @@ const Dashboard = ({}: DashboardProps) => {
 
       {(currView === "BookDetails" || currView === "BookList") && <div>
         {!currBook && <>
-          <input type="text" value={search} onChange={(e) => onSearchChange(e)} /> <button onClick={addNewBook}>New</button><button onClick={toggleEditMode}>Edit</button>
+          <div className={styles.actionBar}>
+            <input type="text" value={search} onChange={(e) => onSearchChange(e)} />
+            <div className={styles.btnCtn}>
+              <button className={styles.btn} onClick={addNewBook}>New</button>
+              <button className={styles.btn} onClick={toggleEditMode}>Edit</button>
+            </div>
+          </div>
           <BookTileList>
             {filteredBooks?.map((b, i) => <BookTile key={b.id} title={b.book_title} onBookClick={() => onBookClick(b.id, b.pdf_filename)}
               dashboardEditMode={isEditMode} setBookTitle={(book_title) => setBookProperty("book_title", book_title, b)} />)}

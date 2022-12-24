@@ -1,0 +1,13 @@
+.ctn{
+  display: flex;
+  justify-content: center;
+}
+
+.quiz{
+  width: calc(100% - 30px);
+}
+
+.question{
+  margin: 10px 0px;
+}
+

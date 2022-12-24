@@ -1,0 +1,15 @@
+.actionBar{
+  display: flex;
+  margin: 5px 15px;
+  /* height: 30px; */
+  justify-content: space-between;
+}
+
+.btnCtn{
+  display: flex;
+  gap: 10px;
+}
+
+.btn{
+  margin: 0;
+}
