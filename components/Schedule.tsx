@@ -32,8 +32,13 @@ const Schedule = ({ books }: ScheduleProps) => {
 
 
   // Next steps:
+  // Need to redeploy to fix the issue with uploading an empty book title
+  // Custom button styles would make a big difference
+  // Get The Mythical-Man Month notes and PDF on there (fix the notes page numbers, they're all uniformly off by a certain number of pages)
+  // (And then Peopleware and Clean Architecture)
   // Should look at implementing fullscreen
   // To put it simply: I need to figure out fullscreen mode and also fix the style everywhere in the app
+  // Figure out issue with scrolling not collapsing the address bar in the mobile browser
 
   // Hamburger menu
   // Style login screen to mostly match the design mock

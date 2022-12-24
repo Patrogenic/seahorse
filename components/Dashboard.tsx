@@ -27,10 +27,6 @@ type Property = "quiz" | "notes" | "pdf_filename" | "book_title" | "next_quiz_da
 //or are these two things different routes?
 //I can probably just keep everything in the dashboard for simplicity
 
-if (typeof window !== "undefined") {
-  window.scrollTo(0, 1);
-}
-
 const Dashboard = ({}: DashboardProps) => {
   const supabaseClient = useSupabaseClient()
   const user = useContext<User>(UserContext);
@@ -63,11 +59,13 @@ const Dashboard = ({}: DashboardProps) => {
   const addNewBook = async () => {
     let book_title: string = prompt("New book:") || "";
 
-    const res = await supabaseClient.from('Books').insert({ book_title, email: user.email })
-    const { data } = await supabaseClient.from('Books').select('*').eq("book_title", book_title);
-
-    // @ts-ignore
-    setBooks([data[0], ...books])
+    if(book_title){
+      const res = await supabaseClient.from('Books').insert({ book_title, email: user.email })
+      const { data } = await supabaseClient.from('Books').select('*').eq("book_title", book_title);
+  
+      // @ts-ignore
+      setBooks([data[0], ...books])
+    }
   }
 
   const getPDFUrl = async (pdf_filename: string): Promise<string> => {
