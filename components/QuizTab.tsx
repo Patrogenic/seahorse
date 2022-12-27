@@ -1,6 +1,7 @@
 import { FocusEvent, MouseEvent, useEffect, useState } from "react";
 import Quiz from "./Quiz";
 import styles from '../styles/QuizTab.module.css'
+import { ChangedProperties } from "../types";
 
 
 
@@ -23,13 +24,13 @@ const makeQuizFromNotes = (notes: string): string => {
 
 type QuizTabProps = {
   saveQuiz: (quiz: string) => void,
-  saveNextQuizDate: (next_quiz_date: string, quiz_cooldown_time: number) => void
+  setBookProperties: (changedProperties: ChangedProperties) => void
   quiz: string,
   notes: string,
   quiz_cooldown_time: number,
 }
 
-const QuizTab = ({ saveQuiz, quiz, notes, saveNextQuizDate, quiz_cooldown_time }: QuizTabProps) => {
+const QuizTab = ({ saveQuiz, quiz, notes, setBookProperties, quiz_cooldown_time }: QuizTabProps) => {
   const suggestMode = !quiz && notes ? true : false;
   const suggestedQuiz = suggestMode ? makeQuizFromNotes(notes) : "";
   const [ isEditMode, setIsEditMode ] = useState<boolean>(suggestMode);
@@ -53,12 +54,22 @@ const QuizTab = ({ saveQuiz, quiz, notes, saveNextQuizDate, quiz_cooldown_time }
   }
 
   const saveNewQuiz = () => {
-    saveQuiz(editQuizVal);
-
     const now = new Date();
     now.setDate(now.getDate() + 1);
     const tomorrow = now.toLocaleDateString();
-    saveNextQuizDate(tomorrow, 1);
+
+    const changedProperties: ChangedProperties = {
+      quiz: editQuizVal,
+      next_quiz_date: tomorrow,
+      quiz_cooldown_time: 1,
+    }
+
+    setIsEditMode(!isEditMode);
+    setBookProperties(changedProperties);
+  }
+
+  const saveNextQuizDate = (next_quiz_date: string, quiz_cooldown_time: number): void => {
+    setBookProperties({ next_quiz_date, quiz_cooldown_time })
   }
 
   if(suggestMode){

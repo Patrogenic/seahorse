@@ -29,8 +29,6 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
   }
 
   const onQuizSubmit = () => {
-    // reveal answers, then give the user the option to schedule the next quiz (give three options, if it was 3 days since the last quiz, give the user three options: 1 day, 3 days, 7 days)
-    // then we have to update the schedules column in supabase
     setShowAnswers(true);
   }
 
@@ -44,9 +42,14 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
 
   const resetQuiz = () => {
     setShowAnswers(false);
+    setUserAnswers(Array(lines.length).fill(""));
   }
 
-  // need to fix some styling for the notes and quiz, work on scheduling of quizzes, style login screen
+
+  const hiddenStyle = {
+    visibility: "hidden" as const,
+  }
+
 
   return(
     <div className={styles.ctn}>
@@ -54,13 +57,13 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
         {parts.map((p, i) => <div className={styles.question} key={i}>
           <div>Part {romanNumArr[i + 1]}</div>
           <input className={styles.textInput} value={userAnswers[i]} onChange={(e) => onAnswerChange(e, i)} type="text"/>
-          {showAnswers && <span>{correctAnswers[i]}</span>}
+          <div style={showAnswers ? {} : hiddenStyle}>{correctAnswers[i]}</div>
         </div>)}
 
         {chapters.map((c, i) => <div className={styles.question} key={i}>
           <div>Chapter {i + 1}</div>
           <input className={styles.textInput} value={userAnswers[i + parts.length]} onChange={(e) => onAnswerChange(e, i + parts.length)} type="text"/>
-          {showAnswers && <span>{correctAnswers[i + parts.length]}</span>}
+          <div style={showAnswers ? {} : hiddenStyle}>{correctAnswers[i + parts.length]}</div>
         </div>)}
 
         {!previewMode && <button onClick={onQuizSubmit}>Submit</button>}

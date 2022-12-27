@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { UserContext } from "../pages";
 import testData from "../testData";
 import Books from "../testData";
-import { Book, Views } from "../types";
+import { Book, ChangedProperties, Property, Views } from "../types";
 import BookDetails from "./BookDetails";
 import BookTile from "./BookTile";
 import BookTileList from "./BookTileList";
@@ -20,7 +20,7 @@ type DashboardProps = {
 
 }
 
-type Property = "quiz" | "notes" | "pdf_filename" | "book_title" | "next_quiz_date" | "quiz_cooldown_time";
+
 
 
 //conditionally show NavigateBooks/Schedule?
@@ -65,6 +65,16 @@ const Dashboard = ({}: DashboardProps) => {
     setBooks(updatedBooks);
   }
 
+  const setBookProperties = async (changedProperties: ChangedProperties , originalBook: Book): Promise<void> => {
+    let updatedBook: Book = { ...originalBook, ...changedProperties } as Book;
+    let updatedBooks: Book[] = books!.map((b, i) => b.id === originalBook.id ? updatedBook : b)
+
+    console.log(updatedBook);
+    
+    const { data } = await supabaseClient.from('Books').update({ ...changedProperties }).eq('id', originalBook.id)
+    setBooks(updatedBooks);
+  }
+
   const addNewBook = async () => {
     let book_title: string = prompt("New book:") || "";
 
@@ -92,9 +102,14 @@ const Dashboard = ({}: DashboardProps) => {
   }
 
   const onBookClick = async (id: number, pdf_filename: string) => {
-    
     setCurrBookId(id);
     setCurrView("BookDetails");
+    const PDFUrl = await getPDFUrl(pdf_filename);
+    setCurrPDFUrl(PDFUrl);
+  }
+
+  const savePDF = async (pdf_filename: string, currBook: Book) => {
+    await setBookProperty("pdf_filename", pdf_filename, currBook)
     const PDFUrl = await getPDFUrl(pdf_filename);
     setCurrPDFUrl(PDFUrl);
   }
@@ -105,11 +120,6 @@ const Dashboard = ({}: DashboardProps) => {
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-  }
-
-  const saveNextQuizDate = (next_quiz_date: string, quiz_cooldown_time: number, currBook: Book) => {
-    setBookProperty("next_quiz_date", next_quiz_date, currBook);
-    setBookProperty("quiz_cooldown_time", quiz_cooldown_time, currBook);
   }
 
   return(
@@ -131,9 +141,9 @@ const Dashboard = ({}: DashboardProps) => {
           </BookTileList></>
         }
         {currBook && <BookDetails
-          quizTab={<QuizTab quiz={currBook.quiz || ""} notes={currBook.notes} quiz_cooldown_time={currBook.quiz_cooldown_time} saveQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} saveNextQuizDate={(next_quiz_date: string, quiz_cooldown_time: number) => saveNextQuizDate(next_quiz_date, quiz_cooldown_time, currBook)} />}
+          quizTab={<QuizTab quiz={currBook.quiz || ""} notes={currBook.notes} quiz_cooldown_time={currBook.quiz_cooldown_time} saveQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} setBookProperties={(changedProperties) => setBookProperties(changedProperties, currBook)} />}
           notesTab={<NotesTab PDFUrl={currPDFUrl} notes={currBook.notes || ""} saveNotes={(notes) => setBookProperty("notes", notes, currBook)}/>}
-          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename || ""} savePDF={(pdf_filename) => setBookProperty("pdf_filename", pdf_filename, currBook)}/>}/>
+          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename || ""} savePDF={(pdf_filename) => savePDF( pdf_filename, currBook)}/>}/>
         }
       </div>}
 
