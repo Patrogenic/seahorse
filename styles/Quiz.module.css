@@ -8,6 +8,25 @@
 }
 
 .question{
-  margin: 10px 0px;
+  margin: 20px 0px;
 }
 
+.questionHeader {
+  font-weight: bold;
+  font-size: 14px;
+  text-align: left;
+}
+
+.answer {
+  /* font-size: 14px; */
+  /* margin-left: 20px; */
+}
+
+.answersCtn {
+  margin: 20px 0;
+
+}
+
+.textInput {
+  width: 345px;
+}

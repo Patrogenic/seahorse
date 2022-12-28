@@ -16,7 +16,8 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
   const lines: string[] = quiz?.trim().split("\n");
   const parts: string[] | null = lines.filter(line => line.startsWith("Part"));
   const chapters: string[] | null = lines.filter(line => line.startsWith("Chapter"));
-  const correctAnswers: string[] | null = [...parts, ...chapters].map(line => line.split(" ").slice(2).join(" "));
+  // const correctAnswers: string[] | null = [...parts, ...chapters].map(line => line.split(" ").slice(2).join(" "));
+  const correctAnswers: string[] | null = lines;
   const [ userAnswers, setUserAnswers ] = useState<string[]>(Array(lines.length).fill(""));
   const [ showAnswers, setShowAnswers ] = useState<boolean>(false);
   const cooldownIndex = quiz_cooldown_time && quizSchedule.indexOf(quiz_cooldown_time);
@@ -54,20 +55,26 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
   return(
     <div className={styles.ctn}>
       <div className={styles.quiz}>
-        {parts.map((p, i) => <div className={styles.question} key={i}>
-          <div>Part {romanNumArr[i + 1]}</div>
-          <input className={styles.textInput} value={userAnswers[i]} onChange={(e) => onAnswerChange(e, i)} type="text"/>
-          <div style={showAnswers ? {} : hiddenStyle}>{correctAnswers[i]}</div>
-        </div>)}
+        <form>
+          {parts.map((p, i) => <div className={styles.question} key={i}>
+            <div className={styles.questionHeader}>Part {romanNumArr[i + 1]}</div>
+            <input className={styles.textInput} value={userAnswers[i]} onChange={(e) => onAnswerChange(e, i)} type="text"/>
+            {/* <div style={showAnswers ? {} : hiddenStyle} className={styles.answer}>{correctAnswers[i]}</div> */}
+          </div>)}
 
-        {chapters.map((c, i) => <div className={styles.question} key={i}>
-          <div>Chapter {i + 1}</div>
-          <input className={styles.textInput} value={userAnswers[i + parts.length]} onChange={(e) => onAnswerChange(e, i + parts.length)} type="text"/>
-          <div style={showAnswers ? {} : hiddenStyle}>{correctAnswers[i + parts.length]}</div>
-        </div>)}
+          {chapters.map((c, i) => <div className={styles.question} key={i}>
+            <div className={styles.questionHeader}>Chapter {i + 1}</div>
+            <input className={styles.textInput} value={userAnswers[i + parts.length]} onChange={(e) => onAnswerChange(e, i + parts.length)} type="text"/>
+            {/* <div style={showAnswers ? {} : hiddenStyle} className={styles.answer}>{correctAnswers[i + parts.length]}</div> */}
+          </div>)}
+        </form>
 
         {!previewMode && <button onClick={onQuizSubmit}>Submit</button>}
         {showAnswers && <div>
+          <div className={styles.answersCtn}>
+            <div className={styles.questionHeader}>Answers</div>
+            {correctAnswers.map((c, i) => <div key={i}>{c}</div>)}
+          </div>
           {schedulingOptions.map((s, i) => s !== 0 && <button key={i} onClick={() => onSchedulingQuiz(s)} >{s} days</button>)}
         </div>}
       </div>
