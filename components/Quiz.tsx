@@ -16,7 +16,7 @@ const Quiz = ({ quiz, previewMode, saveNextQuizDate, quiz_cooldown_time }: QuizP
   const lines: string[] = quiz?.trim().split("\n");
   const parts: string[] | null = lines.filter(line => line.startsWith("Part"));
   const chapters: string[] | null = lines.filter(line => line.startsWith("Chapter"));
-  const correctAnswers: string[] | null = lines.map(line => line.split(" ").slice(2).join(" "));
+  const correctAnswers: string[] | null = [...parts, ...chapters].map(line => line.split(" ").slice(2).join(" "));
   const [ userAnswers, setUserAnswers ] = useState<string[]>(Array(lines.length).fill(""));
   const [ showAnswers, setShowAnswers ] = useState<boolean>(false);
   const cooldownIndex = quiz_cooldown_time && quizSchedule.indexOf(quiz_cooldown_time);
