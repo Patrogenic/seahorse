@@ -143,7 +143,7 @@ const Dashboard = ({}: DashboardProps) => {
         {currBook && <BookDetails
           quizTab={<QuizTab quiz={currBook.quiz || ""} notes={currBook.notes} quiz_cooldown_time={currBook.quiz_cooldown_time} saveQuiz={(quiz) => setBookProperty("quiz", quiz, currBook)} setBookProperties={(changedProperties) => setBookProperties(changedProperties, currBook)} />}
           notesTab={<NotesTab PDFUrl={currPDFUrl} notes={currBook.notes || ""} saveNotes={(notes) => setBookProperty("notes", notes, currBook)}/>}
-          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename || ""} savePDF={(pdf_filename) => savePDF( pdf_filename, currBook)}/>}/>
+          pdfTab={<PDFTab PDFUrl={currPDFUrl} pdf_filename={currBook.pdf_filename || ""} savePDF={(pdf_filename) => savePDF(pdf_filename, currBook)}/>}/>
         }
       </div>}
 
