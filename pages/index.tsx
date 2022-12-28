@@ -40,6 +40,7 @@ export default function Home() {
       <Head>
         <title>SeaHorse</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="icon" href="/SeaHorse.svg" />
       </Head>
       <main>
