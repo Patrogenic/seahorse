@@ -26,14 +26,16 @@ const buildScheduleMap = (books: Book[]) => {
   return scheduleMap;
 }
 
+const sortDatesFn = (a: string, b: string) => {
+  return new Date(a).getTime() - new Date(b).getTime();
+}
+
 const Schedule = ({ books }: ScheduleProps) => {
   const scheduleMap: ScheduleMap = books && buildScheduleMap(books) || {};
 
 
 
   // Next steps:
-  // Get The Mythical-Man Month notes and PDF on there (fix the notes page numbers, they're all uniformly off by a certain number of pages)
-  // (And then Peopleware and Clean Architecture)
 
   // Hamburger menu
   // Style buttons through the rest of the application (make a general button style to be used, maybe in the global css file)
@@ -49,7 +51,7 @@ const Schedule = ({ books }: ScheduleProps) => {
 
   return(
     <div className={styles.ctn}>
-      {Object.keys(scheduleMap).map((date, i) => <div key={i}>
+      {Object.keys(scheduleMap).sort(sortDatesFn).map((date, i) => <div key={i}>
         <div className={styles.dates}>{date}</div>
         {scheduleMap[date].map((book, j) => <div key={j}>
           {book}
